@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info:
+  title: CrackStation - OpenAPI 1.0
+  description: |-
+    This is a sample CrackStation Server based on the OpenAPI 1.0 specification.  You can find out more about
+    Swagger at [https://swagger.io](https://swagger.io). CrackStation is a highly performant library written in Swift that cracks passwords hashed using one way function (can’t be decrypted/reversed using brute force method). CrackStation can crack SHA1 and SHA256 `[a-z0-9A-Z?!]` unsalted hashes of length less than four and return the password.
+
+    _The code of CrackStation API, please click [here](https://github.com/yuchen19971209/CrackStationAPI)._
+    
+    
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://f6y2abs3g0.execute-api.us-east-1.amazonaws.com
+tags:
+  - name: Password
+    description: Your plain-text password
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /password/{shaHash}:
+    get:
+      tags:
+        - password
+      summary: Find password by shaHash
+      description: Returns a password
+      operationId: lambda_handler
+      parameters:
+        - name: shaHash
+          in: path
+          description: shaHash string to return password
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pwd:
+                    type: string
+                example:
+                  5dde896887f6754c9b15bfe3a441ae4806df2fde94001311e08bf110622e0bbe: xx
+        '404':
+          description: shaHash not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pwd:
+                    type: string
+                example:
+                  a: Can not find the password in CrackStation
